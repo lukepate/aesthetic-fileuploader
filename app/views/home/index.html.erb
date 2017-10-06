@@ -1,9 +1,6 @@
-<h2>Make a new friend <%= link_to 'New Friend', new_friend_path, class: 'new-friend' %></h2>
+
 <h1>User id: <%= @user.id %></h1>
-<h1>Order id: <%= @order%></h1>
-<section id="friends">
-  <%= render @friends %>
-</section>
+
 <hr>
 <!-- this is how to hide stuff just for the admin -->
 <% if @user.admin == true %>

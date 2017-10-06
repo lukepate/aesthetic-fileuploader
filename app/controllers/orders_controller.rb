@@ -7,11 +7,14 @@ class OrdersController < ApplicationController
 
   end
   def show
-    @order = Order.find_by(id: params[:id])
-    @order_id = params[:id]
 
-    # @current_event = Event.where(id: )
-    # @merch = Shirt.where(events_id: @current_event.id)
+    @friends = Friend.all
+    @user = current_user
+    @order = Order.find_by(id: params[:id])
+    @orders=Order.where(user_id: current_user.id)
+    @shirts = Shirt.all
+
+    @shirt = Shirt.find_by(id: params[:id])
 
   end
 

@@ -1,8 +1,4 @@
-class FriendsController < ApplicationController
-  before_action :set_friend, only: [:show, :edit, :update, :destroy]
-
-  # GET /friends
-  # GET /friends.json
+class HomeController < ApplicationController
   def index
     @friends = Friend.all
     @user = current_user

@@ -1,4 +1,10 @@
 FactoryGirl.define do
+  factory :home do
+    
+  end
+  factory :shirt do
+    
+  end
   factory :order do
     
   end
