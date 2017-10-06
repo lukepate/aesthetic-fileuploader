@@ -6,6 +6,8 @@ class FriendsController < ApplicationController
   def index
     @friends = Friend.all
     @user = current_user
+    @order = Order.find_by(id: params[:id])
+    @orders=Order.where(user_id: current_user.id)
   end
 
 
@@ -28,6 +30,10 @@ class FriendsController < ApplicationController
   # POST /friends.json
   def create
     @friend = Friend.new(friend_params)
+
+
+    @user = current_user
+
 
     respond_to do |format|
       if @friend.save

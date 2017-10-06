@@ -1,10 +1,50 @@
 <h2>Make a new friend <%= link_to 'New Friend', new_friend_path, class: 'new-friend' %></h2>
-<h1><%= @user.id %></h1>
+<h1>User id: <%= @user.id %></h1>
+<h1>Order id: <%= @order%></h1>
 <section id="friends">
   <%= render @friends %>
 </section>
 
-
+<!-- this is how to hide stuff just for the admin -->
 <% if @user.admin == true %>
   hello!!!
+<% end %>
+
+
+<!-- This is for order -->
+<div class="">
+  <form action="/orders" method='POST'>
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    NAME:  <input type="text" name="name" value="">
+    complete: <input type="text" name="complete">
+    date: <input type="text" name="date">
+    <div class="row center aligned button-pad">
+    <input class="btn waves-effect waves-light black hidebutton" type="submit">
+  </form>
+    <a id="hidebut" class="btn waves-effect waves-light black hidebutton">Close</a>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+
+<!-- this displays the orders created by the users -->
+<% @orders.each do |x| %>
+<!-- matches user id and displays just their info -->
+  <% if x.user_id == @user.id %>
+   <div class="card col s5 offset-s1 card-size">
+    <div class="card-reveal">
+    name <%= x['name'] %> <br>
+    complete<%= x['complete'] %><br>
+    id <%= x['id'] %><br>
+    user id<%= x['user_id'] %><br>
+      <%= link_to "Remove Order", x, method: :delete %>
+    <br>
+    </div>
+  </div>
+  <br>
+  <% end %>
 <% end %>

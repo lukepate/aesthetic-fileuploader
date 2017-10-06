@@ -1,5 +1,5 @@
 PaperclipDemo::Application.routes.draw do
   devise_for :users
-  resources :friends
+  resources :friends, :orders
   root :to => 'friends#index'
 end
