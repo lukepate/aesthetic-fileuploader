@@ -15,6 +15,7 @@ class OrdersController < ApplicationController
     @shirts = Shirt.all
 
     @shirt = Shirt.find_by(id: params[:id])
+    @shirt_order_id = Shirt.find_by(order_id: params[:order_id])
 
   end
 

@@ -1,48 +1,99 @@
-
-<h1>User id: <%= @user.id %></h1>
-
-<hr>
+<div class="container">
 <!-- this is how to hide stuff just for the admin -->
 <% if @user.admin == true %>
   secret admin page!!!
 <% end %>
 
-<hr>
-<!-- This is for order -->
-<div class="">
-  <form action="/orders" method='POST'>
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-    NAME:  <input type="text" name="name" value="">
-    complete: <input type="text" name="complete">
-    date: <input type="text" name="date">
-    <div class="row center aligned button-pad">
-    <input class="btn waves-effect waves-light black hidebutton" type="submit">
-  </form>
-    <a id="hidebut" class="btn waves-effect waves-light black hidebutton">Close</a>
-    </div>
+
+
+<div class="new-order-box">
+  <div class="col-md-4 col-sm-6">
+  <div class="new-order-box-content">
+    <button class="btn waves-effect waves-light black hidebutton new-order-button">+</button>
+    <h2>Create a new order</h2>
+  </div>
+
+  <!-- This is for order -->
+  <div class="new-order-form">
+    <div class="form">
+        <form action="/orders" method='POST'>
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+            <h4>Name </h4>
+            <input type="text" name="name" value="">
+          </div>
+          <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+            <h4>Date Needed</h4>
+            <input type="date" name="date">
+          </div>
+          <div class="form-group">
+            <h4>Shipping</h4>
+            <select class="form-control shipping-select" id="exampleFormControlSelect1">
+              <option>Pick Up</option>
+              <option>Shipping</option>
+            </select>
+          </div>
+      </div>
+
+          <div class="shipping-field field  col-md-offset-12">
+            <h4 class="col-md-offset-6">Shipping Address</h4>
+            <div class="row pull-right">
+              <input type="text" name="complete" value="Contact Name">
+              <input type="text" name="complete" value="Address">
+              <input type="text" name="complete" value="State">
+              <input type="text" name="complete" value="Zip code">
+            </div>
+
+          </div>
+          <div class="col-md-offset-12 field">
+            <input class="btn waves-effect waves-light black new-order-submit" type="submit">
+          </div>
+      </form>
+
+  </div>
+  </div>
 </div>
 
+</div>
 <br>
 <br>
 <br>
 <br>
+
+
 
 <hr>
 <!-- this displays the orders created by the users -->
+<div class="current-orders-container">
+<h1>Current Orders</h1>
+<% @orders.each do |x| %>
+
+<% end %>
+</div>
+
+<hr>
+<!-- this displays the orders created by the users -->
+<div class="past-orders-container">
+<h1>Previous Orders</h1>
 <% @orders.each do |x| %>
 <!-- matches user id and displays just their info -->
-  <% if x.user_id == @user.id %>
-   <div class="card col s5 offset-s1 card-size">
-    <div class="card-reveal">
-    name <%= x['name'] %> <br>
-    complete<%= x['complete'] %><br>
-    id <%= x['id'] %><br>
-    user id<%= x['user_id'] %><br>
-      <%= link_to "Remove Order", x, method: :delete %>
-    <br>
+    <div class="field">
+      <% if x.user_id == @user.id %>
+      <h3><%= x['name'] %></h3>
+      complete<%= x['complete'] %>
+      id <%= x['id'] %>
+      user id<%= x['user_id'] %>
     </div>
-  </div>
-  <br>
-  <p><a href="/orders/<%= x['id'] %>" target="/tours/<%= x['id'] %>">View Concert Date Details</a></p><br>
+
+    <div class="field">
+      <%= link_to "Remove Order", x, method: :delete %>
+    </div>
+
+    <div class="field">
+      <p><a href="/orders/<%= x['id'] %>" target="/tours/<%= x['id'] %>">View Concert Date Details</a></p><br>
+    </div>
   <% end %>
 <% end %>
+</div>
+
+</div>

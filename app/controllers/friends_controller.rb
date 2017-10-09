@@ -11,6 +11,7 @@ class FriendsController < ApplicationController
     @shirts = Shirt.all
 
     @shirt = Shirt.find_by(id: params[:id])
+
   end
 
 
@@ -18,6 +19,7 @@ class FriendsController < ApplicationController
   # GET /friends/1
   # GET /friends/1.json
   def show
+    @shirt_id = Shirt.find_by(id: params[:id])
   end
 
   # GET /friends/new
@@ -36,7 +38,9 @@ class FriendsController < ApplicationController
 
 
     @user = current_user
-
+    Friend.create(shirt_id: params[:shirt_id],
+                      order_id: params[:order_id],
+                      shirt_name: params[:shirt_name])
 
     respond_to do |format|
       if @friend.save
@@ -81,7 +85,7 @@ class FriendsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def friend_params
-      params.require(:friend).permit(:avatar, :name)
+      params.require(:friend).permit(:avatar, :name, :shirt_id, :order_id, :shirt_name)
     end
 
 end

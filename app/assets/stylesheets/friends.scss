@@ -4,6 +4,7 @@ $color-3: #B32216;
 $color-4: #999;
 $color-5: white;
 
+
 // Mixins
 // ----------------------------------------
 
@@ -23,40 +24,36 @@ $color-5: white;
 // Base Styles
 // ----------------------------------------
 body {
-  border-top: 4px solid #AD141E;
+  border-top: 124px solid black;
+
+  header {
+
+    p {
+      text-align: right;
+    }
+  }
 }
 
+
+
 header {
-  background: transparent url(logo.png) no-repeat 40px 20px;
-  margin: 30px auto 0px auto;
+  background: transparent url() no-repeat 40px 20px;
   padding: 0 40px;
-  width: 1040px;
+  text-align: center;
   position: relative;
 
   div.header-wrap {
     border-bottom: 1px solid $color-2;
-    padding: 20px;
 
     h1 {
-      padding-left: 80px;
 
       a {
         color: $color-1;
       }
     }
   }
-
-  a.fork_me {
-    background: url(github.png) no-repeat;
-    padding-left: 25px;
-    position: absolute;
-    top: 0px;
-    right: 50px;
-    color: #000;
-
-    &:hover {
-      color: #AD141E;
-    }
+  .login-in{
+    text-align: right;
   }
 }
 
@@ -64,7 +61,15 @@ div#main-wrap {
   background: url(shadowing.png) no-repeat top center;
   padding-top: 40px;
   margin: 0 auto;
-  width: 1000px;
+  //     display: -webkit-flex;
+  //     display: flex;
+  //     -webkit-flex-direction: column;
+  //     flex-direction: column;
+  //     -webkit-align-items: center;
+  //     align-items: center;
+  //     -webkit-justify-content: center;
+  //     justify-content: center;
+
 
   h2 {
     margin-bottom: 50px;
@@ -101,6 +106,102 @@ footer {
     text-align: center;
   }
 }
+
+// Home
+// ----------------------------------------
+.new-order-box{
+
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+
+      .new-order-box-content{
+        border: 2px solid black;
+        padding: 40px 20px 0px 20px;
+
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+      }
+
+
+      .new-order-form {
+        display: none;
+        width: 100px;
+        padding: 20px;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+
+
+
+        .form{
+          margin-bottom: 10px;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-flex-direction: column;
+          flex-direction: column;
+          -webkit-align-items: center;
+          align-items: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+        }
+
+        .new-order-submit{
+          position: relative;
+          left: 116%;
+        }
+      }
+      .shipping-field{
+        display: none;
+        width: 800px;
+        position: relative;
+
+
+      }
+      .form-group{
+        position: relative;
+        left: 84%;
+      }
+}
+
+
+//
+// }
+// .new-order-box{
+//
+
+//
+//   .new-order-box-content{
+//     border: 2px solid black;
+//     padding: 20px;
+//
+//     display: -webkit-flex;
+//     display: flex;
+//     -webkit-flex-direction: column;
+//     flex-direction: column;
+//     -webkit-align-items: center;
+//     align-items: center;
+//     -webkit-justify-content: center;
+//     justify-content: center;
+
+
+
 
 // Friend
 // ----------------------------------------
@@ -224,4 +325,38 @@ aside {
   color: $color-4;
   font-size: 10px;
   margin-top: 16px;
+}
+
+/* Extra small devices (phones, less than 768px) */
+@media (min-width: 150px) {
+  .form-group{
+    margin-left: -30px;
+    width: 150px;
+  }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 750px) {
+  .form-group{
+    margin-left: -15px;
+    width: 150px;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 970px) {
+  .form-group{
+    margin-left: -40px;
+    width: 150px;
+  }
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1170px) {
+  .form-group{
+    margin-left: 0px;
+    width: 150px;
+  }
+
 }

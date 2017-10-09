@@ -1,8 +1,11 @@
 this is the show
 
-<h1><%= @order.id %></h1>
+<h1>order id <%= @order.id %></h1>
 
 
+<br>
+<br>
+<br>
 <hr>
 <!-- This is for order -->
 <div class="">
@@ -12,29 +15,50 @@ this is the show
     NAME:  <input type="text" name="name" value="">
     complete: <input type="text" name="complete">
     date: <input type="text" name="date">
-      order_id: <input type="text" name="order_id" value="<%= @order.id %>"</h1>">
+    <input type="hidden" name="order_id" value="<%= @order.id %>"</h1>
     <div class="row center aligned button-pad">
     <input class="btn waves-effect waves-light black hidebutton" type="submit">
   </form>
-    <a id="hidebut" class="btn waves-effect waves-light black hidebutton">Close</a>
     </div>
 </div>
 
-
 <hr>
+<!-- This is for order -->
+
+
+<%= render 'form' %>
+<hr>
+
 <!-- this displays the orders created by the users -->
+
 <% @shirts.each do |x| %>
   <% if x.order_id  == @order.id %>
    <div class="card col s5 offset-s1 card-size">
     <div class="card-reveal">
     name <%= x['name'] %> <br>
     complete<%= x['complete'] %><br>
-    id <%= x['id'] %><br>
+    Shirt id <%= x['id'] %><br>
     order id <%= x['order_id'] %><br>
+
       <%= link_to "Remove Order", x, method: :delete %>
     <br>
+
+    <p><a href="/shirts/<%= x['id'] %>"> View Concert Date Details</a></p><br>
+    <p><a href="/shirts/<%= x['id'] %>"> Upload image</a></p><br>
     </div>
   </div>
+
+  <% @friends.each do |z| %>
+  <% if x.order_id  == z.order_id && z.shirt_name == x.name %>
+    <%= z['name'] %> <br>
+    <%= image_tag z.avatar.url(:medium) %>
+    <br>
+    <br>
+  <% end %>
+  <% end %>
   <br>
+    <br>
+
+
   <% end %>
 <% end %>

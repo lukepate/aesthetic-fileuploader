@@ -1,3 +1,3 @@
 class Shirt < ActiveRecord::Base
-  belongs_to :shirt
+  belongs_to :order
 end

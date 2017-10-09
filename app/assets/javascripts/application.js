@@ -13,3 +13,13 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+
+$( ".new-order-button" ).click(function() {
+  $(".new-order-form ").toggle();
+});
+
+
+$( ".shipping-select" ).change(function() {
+  $(".shipping-field ").toggle();
+});

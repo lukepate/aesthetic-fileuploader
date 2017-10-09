@@ -3,7 +3,23 @@ class ShirtsController < ApplicationController
     @shirts=Shirt.all
   end
   def show
-    @shirts=Shirt.all
+    @friends = Friend.all
+    @user = current_user
+    @order = Order.find_by(id: params[:id])
+    @orders=Order.where(user_id: current_user.id)
+    @shirts = Shirt.all
+
+    @shirt = Shirt.find_by(id: params[:id])
+
+
+
+    @shirt_meet = [@orders,@shirts].flatten
+
+    @meet = Shirt.where({ order_id: "@order.id"})
+    @shirt_order_id = Shirt.find_by(order_id: params[:order_id])
+
+
+
   end
   def create
     @user = current_user

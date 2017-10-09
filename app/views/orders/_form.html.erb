@@ -1,0 +1,24 @@
+<%= form_for(Friend.new, multipart: true) do |f| %>
+
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :avatar %>
+    <%= f.file_field :avatar %>
+  </div>
+  <div class="shirt_id">
+    <%= f.label :shirt_name %>
+    <%=f.select 'shirt_name', options_for_select(@shirts.collect{ |u| [u.name] if u.order_id == @order.id }.compact)%>
+
+
+  </div>
+  <div class="order_id">
+    <%= f.hidden_field :order_id, :value => @order.id%>
+  </div>
+  <div class="actions">
+    <%= f.submit 'Upload Image' %>
+  </div>
+<% end %>
