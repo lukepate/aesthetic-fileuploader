@@ -4,6 +4,8 @@ class HomeController < ApplicationController
     @user = current_user
     @order = Order.find_by(id: params[:id])
     @orders=Order.where(user_id: current_user.id)
+
+    @order_new = Order.new
     @shirts = Shirt.all
 
     @shirt = Shirt.find_by(id: params[:id])

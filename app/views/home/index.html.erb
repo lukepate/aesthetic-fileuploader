@@ -61,18 +61,22 @@
 
 
 
+
+
 <hr>
 <!-- this displays the orders created by the users -->
 <div class="current-orders-container">
 <h1>Current Orders</h1>
   <% @orders.each do |x| %>
-  <% if x['complete'] == true %>
+  <% if x['complete'] == false %>
     <h3><%= x['name'] %></h3>
     complete<%= x['complete'] %>
     id <%= x['id'] %>
     user id<%= x['user_id'] %>
-  <a href='/orders/<%=x['id']%>/edit'>edit</a>
-
+    <br>
+  <a href='/orders/<%=x['id']%>/edit'>edit</a><br>
+  <a href='/orders/<%=x['id']%>'>ViewOrder</a><br>
+  <%= link_to "Remove Order", x, method: :delete %>
   <% end %>
   <% end %>
 
@@ -87,6 +91,7 @@
 <!-- matches user id and displays just their info -->
     <div class="field">
       <% if x.user_id == @user.id %>
+      <% if x['complete'] == true %>
       <h3><%= x['name'] %></h3>
       complete<%= x['complete'] %>
       id <%= x['id'] %>
@@ -96,9 +101,43 @@
     </div>
 
     <div class="field">
-
     </div>
+
+    <!-- reorder -->
+    <div class="form-a">
+        <form action="/orders" method='POST'>
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <input type="hidden" name="name" value="<%= x['name'] %> Reorder">
+          <input type="hidden" name="date" value="<%= x['date'] %>">
+          <input type="hidden" name="shipping" value="<%= x['shipping'] %>">
+          <input type="hidden" name="contact_name" value="<%= x['contact_name'] %>">
+          <input type="hidden" name="address" value="<%= x['address'] %>">
+          <input type="hidden" name="state" value="<%= x['state'] %>" >
+          <input type="hidden" name="zip_code" value="<%= x['zip_code'] %>">
+          <input type="hidden" name="complete" value="t">
+          <input class="btn waves-effect waves-light black new-order-submit" type="submit" value"reorder">
+        </form>
+    </div>
+
+    <!-- shirt details -->
+    <% @shirts.each do |shirt| %>
+      <% if shirt.order_id == x['id'] %>
+        <h3>shirt name: <%= shirt['name'] %></h3>
+        <a href="/orders/<%= shirt['order_id'] %>">View Order Details</a><br>
+      <% end %>
+
+      <% @friends.each do |friend| %>
+        <% if friend.order_id  == shirt.order_id && friend.shirt_name == shirt.name %>
+          <%= image_tag friend.avatar.url(:medium) %>
+        <% end %>
+      <% end %>
+
+    <% end %>
+
+
+    <% end %>
   <% end %>
+
 <% end %>
 </div>
 

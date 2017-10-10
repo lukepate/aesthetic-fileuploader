@@ -25,14 +25,27 @@ $( ".shipping-select" ).change(function() {
 });
 
 
-$(".submit-button").click(function(){
-  var id = $('#route_id').val()
+//Reorder for /orders
+(window).ready(function(){
+ $("form-a").submit(function(e){
   $.ajax({
-    type: 'PUT',
-    url:  '/orders/10',
-    dataType: "JSON",
-    success: function(data) {
-        console.log(data);
-    }
-})
+   type: "POST",
+   url: path,
+   data: { 'title': $('title') }
+  })
+  .done(function( msg ) {
+   alert( "Data Saved: " + msg );
+  });
+ });
+
+ $("form-b").submit(function(e){
+  $.ajax({
+   type: "POST",
+   url: path,
+   data: { 'title': $('title') }
+  })
+  .done(function( msg ) {
+   alert( "Data Saved: " + msg );
+  });
+ });
 });

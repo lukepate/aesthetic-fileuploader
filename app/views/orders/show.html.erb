@@ -1,36 +1,47 @@
-this is the show
+<div class="new-order-box">
+  <div class="col-md-4 col-sm-6">
+  <div class="new-order-box-content">
+    <button class="btn waves-effect waves-light black hidebutton new-order-button">+</button>
+    <h2>Create a new order</h2>
+  </div>
 
-<h1>order id <%= @order.id %></h1>
-
-
-<br>
-<br>
-<br>
 <hr>
 <!-- This is for order -->
-<div class="">
-  <h1>SHIRT FORUM</h1>
-  <form action="/shirts" method='POST'>
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-    NAME:  <input type="text" name="name" value="">
-    complete: <input type="text" name="complete">
-    date: <input type="text" name="date">
-    <input type="hidden" name="order_id" value="<%= @order.id %>"</h1>
-    <div class="row center aligned button-pad">
-    <input class="btn waves-effect waves-light black hidebutton" type="submit">
-  </form>
-    </div>
+
+<div class="new-order-form">
+  <div class="form">
+    <form action="/shirts" method='POST'>
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+        <h4>Name </h4>
+        <input type="text" name="name" value="">
+      </div>
+      <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+        <h4>Complete</h4>
+        <input type="text" name="complete">
+      </div>
+      <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+        <h4>Complete</h4>
+        <input type="text" name="date">
+      </div>
+      <input type="hidden" name="order_id" value="<%= @order.id %>"</h1>
+
+      <div class="col-md-offset-12 field">
+        <input class="btn waves-effect waves-light black new-order-submit" type="submit">
+      </div>
+    </form>
+  </div>
 </div>
 
 <hr>
-<!-- This is for order -->
-
-
+<!-- Order form -->
 <%= render 'form' %>
 <hr>
+</div>
 
+</div>
+<div class="shirt-container">
 <!-- this displays the orders created by the users -->
-
 <% @shirts.each do |x| %>
   <% if x.order_id  == @order.id %>
    <div class="card col s5 offset-s1 card-size">
@@ -47,18 +58,22 @@ this is the show
     <p><a href="/shirts/<%= x['id'] %>"> Upload image</a></p><br>
     </div>
   </div>
-
+  <div class="upload">
   <% @friends.each do |z| %>
-  <% if x.order_id  == z.order_id && z.shirt_name == x.name %>
-    <%= z['name'] %> <br>
-    <%= image_tag z.avatar.url(:medium) %>
-    <br>
-    <br>
+    <% if x.order_id  == z.order_id && z.shirt_name == x.name %>
+    <div class="newfield">
+    <h4><%= z['name'] %> </h4>
+    </div>
+      <%= image_tag z.avatar.url(:medium) %>
+
+    <% end %>
   <% end %>
-  <% end %>
+  </div>
+
   <br>
     <br>
 
 
   <% end %>
 <% end %>
+</div>
