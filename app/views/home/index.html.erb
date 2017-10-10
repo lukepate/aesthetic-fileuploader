@@ -4,8 +4,6 @@
   secret admin page!!!
 <% end %>
 
-
-
 <div class="new-order-box">
   <div class="col-md-4 col-sm-6">
   <div class="new-order-box-content">
@@ -26,11 +24,12 @@
             <h4>Date Needed</h4>
             <input type="date" name="date">
           </div>
+            <input type="hidden" name="complete" value="f">
           <div class="form-group">
             <h4>Shipping</h4>
-            <select class="form-control shipping-select" id="exampleFormControlSelect1">
-              <option>Pick Up</option>
-              <option>Shipping</option>
+            <select name="shipping" class="form-control shipping-select" id="exampleFormControlSelect1">
+              <option value="pick_up">Pick Up</option>
+              <option value="shipping">Shipping</option>
             </select>
           </div>
       </div>
@@ -38,10 +37,10 @@
           <div class="shipping-field field  col-md-offset-12">
             <h4 class="col-md-offset-6">Shipping Address</h4>
             <div class="row pull-right">
-              <input type="text" name="complete" value="Contact Name">
-              <input type="text" name="complete" value="Address">
-              <input type="text" name="complete" value="State">
-              <input type="text" name="complete" value="Zip code">
+              <input type="text" name="contact_name" value="Contact Name">
+              <input type="text" name="address" value="Address">
+              <input type="text" name="state" value="State">
+              <input type="text" name="zip_code" value="Zip code">
             </div>
 
           </div>
@@ -66,10 +65,19 @@
 <!-- this displays the orders created by the users -->
 <div class="current-orders-container">
 <h1>Current Orders</h1>
-<% @orders.each do |x| %>
+  <% @orders.each do |x| %>
+  <% if x['complete'] == true %>
+    <h3><%= x['name'] %></h3>
+    complete<%= x['complete'] %>
+    id <%= x['id'] %>
+    user id<%= x['user_id'] %>
+  <a href='/orders/<%=x['id']%>/edit'>edit</a>
 
-<% end %>
+  <% end %>
+  <% end %>
+
 </div>
+
 
 <hr>
 <!-- this displays the orders created by the users -->
@@ -82,15 +90,13 @@
       <h3><%= x['name'] %></h3>
       complete<%= x['complete'] %>
       id <%= x['id'] %>
-      user id<%= x['user_id'] %>
-    </div>
-
-    <div class="field">
+      user id<%= x['user_id'] %><br>
+      <a href="/orders/<%= x['id'] %>" target="/tours/<%= x['id'] %>">View Order Details</a><br>
       <%= link_to "Remove Order", x, method: :delete %>
     </div>
 
     <div class="field">
-      <p><a href="/orders/<%= x['id'] %>" target="/tours/<%= x['id'] %>">View Concert Date Details</a></p><br>
+
     </div>
   <% end %>
 <% end %>

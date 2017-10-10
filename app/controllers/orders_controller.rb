@@ -19,11 +19,42 @@ class OrdersController < ApplicationController
 
   end
 
+
+
+def edit
+  @order = Order.find_by(id: params[:id])
+end
+
+def update
+  @order = Order.find_by(id: params[:id])
+  if @order.update_attributes(order_params)
+    flash[:notice] = 'Profile was successfully updated.'
+  else
+    render "edit"
+  end
+  redirect_to ("/")
+end
+
+
+
+
+def order_params
+  params.require(:order).permit(:name, :complete)
+end
+
+
+
   def create
     @user = current_user
     Order.create(name: params[:name],
-              date: params[:complete],
-              complete: params[:total],
+              date: params[:date],
+              complete: params[:complete],
+              date: params[:date],
+              contact_name: params[:contact_name],
+              address: params[:address],
+              zip_code: params[:zip_code],
+              shipping: params[:shipping],
+              state: params[:state],
               user_id: current_user.id)
     redirect_to ("/")
   end
@@ -31,4 +62,6 @@ class OrdersController < ApplicationController
     Order.destroy(params[:id])
     redirect_to ("/")
   end
-  end
+
+
+end

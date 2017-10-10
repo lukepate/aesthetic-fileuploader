@@ -23,3 +23,16 @@ $( ".new-order-button" ).click(function() {
 $( ".shipping-select" ).change(function() {
   $(".shipping-field ").toggle();
 });
+
+
+$(".submit-button").click(function(){
+  var id = $('#route_id').val()
+  $.ajax({
+    type: 'PUT',
+    url:  '/orders/10',
+    dataType: "JSON",
+    success: function(data) {
+        console.log(data);
+    }
+})
+});

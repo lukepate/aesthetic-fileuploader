@@ -21,9 +21,12 @@ class HomeController < ApplicationController
     @friend = Friend.new
   end
 
-  # GET /friends/1/edit
   def edit
+    @order = Order.find_by(id: params[:id])
   end
+
+  # GET /friends/1/edit
+
 
   # POST /friends
   # POST /friends.json
@@ -48,6 +51,14 @@ class HomeController < ApplicationController
   # PATCH/PUT /friends/1
   # PATCH/PUT /friends/1.json
   def update
+    @order = Order.find_by(id: params[:id])
+    if @order.update_attributes(order_params)
+      flash[:notice] = 'Profile was successfully updated.'
+    else
+      render "edit"
+    end
+
+
     respond_to do |format|
       if @friend.update(friend_params)
         format.html { redirect_to @friend, notice: 'File was successfully updated.' }
@@ -58,6 +69,8 @@ class HomeController < ApplicationController
       end
     end
   end
+
+
 
   # DELETE /friends/1
   # DELETE /friends/1.json
@@ -79,5 +92,11 @@ class HomeController < ApplicationController
     def friend_params
       params.require(:friend).permit(:avatar, :name)
     end
+
+    def order_params
+      params.require(:order).permit(:name, :complete)
+    end
+
+
 
 end
