@@ -48,6 +48,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
+    cancancan (2.0.0)
     capybara (2.7.0)
       addressable
       mime-types (>= 1.16)
@@ -200,6 +201,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk (~> 2.3)
+  cancancan (~> 2.0)
   capybara
   coffee-rails
   devise

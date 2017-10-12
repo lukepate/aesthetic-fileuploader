@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem "rails", "~> 4.2.0"
-
+gem 'cancancan', '~> 2.0'
 gem 'devise'
 gem "aws-sdk", "~> 2.3"
 gem "coffee-rails"
