@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009202227) do
+ActiveRecord::Schema.define(version: 20171010200416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,9 @@ ActiveRecord::Schema.define(version: 20171009202227) do
     t.integer  "shirt_id"
     t.integer  "order_id"
     t.string   "shirt_name"
+    t.string   "ink"
+    t.string   "print"
+    t.string   "size"
   end
 
   create_table "homes", force: :cascade do |t|
@@ -70,6 +73,17 @@ ActiveRecord::Schema.define(version: 20171009202227) do
     t.string   "date"
     t.boolean  "complete"
     t.integer  "order_id"
+    t.string   "style"
+    t.string   "color"
+    t.string   "xs"
+    t.string   "s"
+    t.string   "m"
+    t.string   "l"
+    t.string   "xl"
+    t.string   "twoxl"
+    t.string   "threexl"
+    t.string   "fourxl"
+    t.string   "fivexl"
   end
 
   create_table "users", force: :cascade do |t|

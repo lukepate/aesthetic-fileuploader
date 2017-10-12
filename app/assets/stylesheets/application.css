@@ -12,3 +12,6 @@
  *= require_tree .
  *= require reset
 */
+.new-order-box-content{
+  display:none;
+}

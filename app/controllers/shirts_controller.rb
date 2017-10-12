@@ -26,12 +26,23 @@ class ShirtsController < ApplicationController
     Shirt.create(name: params[:name],
               date: params[:date],
               complete: params[:complete],
+              style: params[:style],
+              color: params[:color],
+              xs: params[:xs],
+              s: params[:s],
+              m: params[:m],
+              l: params[:l],
+              xl: params[:xl],
+              twoxl: params[:twoxl],
+              threexl: params[:threexl],
+              fourxl: params[:fourxl],
+              fivexl: params[:fivexl],
               order_id: params[:order_id])
-          redirect_to ("/")
+          redirect_to :back
     end
     def destroy
       Shirt.destroy(params[:id])
-      redirect_to ("/")
+      redirect_to :back
     end
 
 end

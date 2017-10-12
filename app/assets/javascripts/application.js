@@ -16,13 +16,18 @@
 
 
 $( ".new-order-button" ).click(function() {
-  $(".new-order-form ").toggle();
+  $(".order-form-container").toggle();
 });
 
 
 $( ".shipping-select" ).change(function() {
   $(".shipping-field ").toggle();
 });
+
+$( ".card-button" ).click(function() {
+  $(".card ").toggle();
+});
+
 
 
 //Reorder for /orders

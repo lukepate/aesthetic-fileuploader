@@ -25,6 +25,23 @@ class HomeController < ApplicationController
 
   def edit
     @order = Order.find_by(id: params[:id])
+
+  end
+
+  def update
+    @order = Order.find_by(id: params[:id])
+    if @order.update_attributes(order_params)
+      flash[:notice] = 'Profile was successfully updated.'
+    else
+      render "edit"
+    end
+    redirect_to ("/")
+  end
+
+
+
+  def order_params
+    params.require(:order).permit(:name, :complete)
   end
 
   # GET /friends/1/edit

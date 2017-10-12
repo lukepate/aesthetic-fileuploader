@@ -9,9 +9,10 @@ class OrdersController < ApplicationController
   def show
 
     @friends = Friend.all
+    @users = User.all
     @user = current_user
     @order = Order.find_by(id: params[:id])
-    @orders=Order.where(user_id: current_user.id)
+    @orders=Order.all
     @shirts = Shirt.all
 
     @shirt = Shirt.find_by(id: params[:id])
@@ -23,6 +24,7 @@ class OrdersController < ApplicationController
 
 def edit
   @order = Order.find_by(id: params[:id])
+
 end
 
 def update
@@ -32,7 +34,7 @@ def update
   else
     render "edit"
   end
-  redirect_to ("/")
+  redirect_to :back
 end
 
 
@@ -56,7 +58,7 @@ end
               shipping: params[:shipping],
               state: params[:state],
               user_id: current_user.id)
-    redirect_to ("/")
+    redirect_to :back
   end
   def destroy
     Order.destroy(params[:id])

@@ -127,7 +127,7 @@ footer {
 
 
       .new-order-form {
-        display: none;
+
         width: 100px;
         padding: 20px;
         display: -webkit-flex;
@@ -177,6 +177,10 @@ footer {
   -webkit-flex-direction: row;
   flex-direction: row;
 }
+.order-form-container{
+  display:none;
+}
+
 
 
 //

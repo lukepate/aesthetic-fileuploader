@@ -54,14 +54,6 @@
 </div>
 
 </div>
-<br>
-<br>
-<br>
-<br>
-
-
-
-
 
 <hr>
 <!-- this displays the orders created by the users -->
@@ -74,10 +66,14 @@
     id <%= x['id'] %>
     user id<%= x['user_id'] %>
     <br>
-  <a href='/orders/<%=x['id']%>/edit'>edit</a><br>
-  <a href='/orders/<%=x['id']%>'>ViewOrder</a><br>
+  <a href='/orders/<%=x['id']%>/edit'>Confirm Order</a><br>
+  <a href='/orders/<%=x['id']%>'>Add To Order</a><br>
   <%= link_to "Remove Order", x, method: :delete %>
+
+
+
   <% end %>
+
   <% end %>
 
 </div>
@@ -96,7 +92,7 @@
       complete<%= x['complete'] %>
       id <%= x['id'] %>
       user id<%= x['user_id'] %><br>
-      <a href="/orders/<%= x['id'] %>" target="/tours/<%= x['id'] %>">View Order Details</a><br>
+      <a href="/orders/<%= x['id'] %>">View Order Details</a><br>
       <%= link_to "Remove Order", x, method: :delete %>
     </div>
 
@@ -115,25 +111,11 @@
           <input type="hidden" name="state" value="<%= x['state'] %>" >
           <input type="hidden" name="zip_code" value="<%= x['zip_code'] %>">
           <input type="hidden" name="complete" value="t">
-          <input class="btn waves-effect waves-light black new-order-submit" type="submit" value"reorder">
+          <input class="btn waves-effect waves-light black new-order-submit" type="submit">
         </form>
     </div>
 
     <!-- shirt details -->
-    <% @shirts.each do |shirt| %>
-      <% if shirt.order_id == x['id'] %>
-        <h3>shirt name: <%= shirt['name'] %></h3>
-        <a href="/orders/<%= shirt['order_id'] %>">View Order Details</a><br>
-      <% end %>
-
-      <% @friends.each do |friend| %>
-        <% if friend.order_id  == shirt.order_id && friend.shirt_name == shirt.name %>
-          <%= image_tag friend.avatar.url(:medium) %>
-        <% end %>
-      <% end %>
-
-    <% end %>
-
 
     <% end %>
   <% end %>
