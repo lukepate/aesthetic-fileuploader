@@ -58,6 +58,7 @@ end
               shipping: params[:shipping],
               state: params[:state],
               user_id: current_user.id)
+    UserNotifier.send_signup_email(@user).deliver
     redirect_to :back
   end
   def destroy
