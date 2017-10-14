@@ -1,3 +1,4 @@
+$main: #63b0a1;
 $color-1: #444;
 $color-2: gainsboro;
 $color-3: #B32216;
@@ -24,7 +25,6 @@ $color-5: white;
 // Base Styles
 // ----------------------------------------
 body {
-  border-top: 124px solid black;
 
   header {
 
@@ -34,14 +34,35 @@ body {
   }
 }
 
+a {
+  color: black;
+  text-decoration: none;
+}
 
+.login-container{
+  position: relative;
+  z-index: 2;
+  left: 33%;
 
-header {
+  .login-title{
+    color: white;
+    font-size: 70px;
+    right: 25%;
+    position: relative;
+  }
+}
+
+.header-wrap {
   background: transparent url() no-repeat 40px 20px;
-  padding: 0 40px;
+  padding: 10px 20px 10px 20px;
   text-align: center;
   position: relative;
+  background-color: $main;
 
+  .root-link{
+    color: white;
+    float: left;
+  }
   div.header-wrap {
     border-bottom: 1px solid $color-2;
 
@@ -50,6 +71,7 @@ header {
       a {
         color: $color-1;
       }
+
     }
   }
   .login-in{
@@ -102,28 +124,8 @@ footer {
 // ----------------------------------------
 .new-order-box{
 
-      display: -webkit-flex;
-      display: flex;
-      -webkit-flex-direction: column;
-      flex-direction: column;
-      -webkit-align-items: center;
-      align-items: center;
-      -webkit-justify-content: center;
-      justify-content: center;
 
-      .new-order-box-content{
-        border: 2px solid black;
-        padding: 40px 20px 0px 20px;
 
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-direction: column;
-        flex-direction: column;
-        -webkit-align-items: center;
-        align-items: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-      }
 
 
       .new-order-form {
@@ -158,13 +160,7 @@ footer {
           left: 116%;
         }
       }
-      .shipping-field{
-        display: none;
-        width: 800px;
-        position: relative;
 
-
-      }
       .form-group{
         position: relative;
         left: 84%;
@@ -181,7 +177,36 @@ footer {
   display:none;
 }
 
+.new-order-box{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
 
+.new-order-box-content{
+  border: 2px solid black;
+  margin-left: 20px;
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+
+
+.order-form-container{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
 
 //
 // }

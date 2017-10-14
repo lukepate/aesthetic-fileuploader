@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
   def index
     @friends = Friend.all
+
+    @currentUser = current_user.id
     @user = current_user
     @order = Order.find_by(id: params[:id])
     @orders=Order.where(user_id: current_user.id)

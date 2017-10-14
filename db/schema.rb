@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171010200416) do
+ActiveRecord::Schema.define(version: 20171013205223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20171010200416) do
     t.string   "ink"
     t.string   "print"
     t.string   "size"
+    t.integer  "user_id"
   end
 
   create_table "homes", force: :cascade do |t|
@@ -84,6 +85,8 @@ ActiveRecord::Schema.define(version: 20171010200416) do
     t.string   "threexl"
     t.string   "fourxl"
     t.string   "fivexl"
+    t.integer  "friend_id"
+    t.string   "friend_name"
   end
 
   create_table "users", force: :cascade do |t|
@@ -108,6 +111,8 @@ ActiveRecord::Schema.define(version: 20171010200416) do
 
   add_foreign_key "friends", "orders"
   add_foreign_key "friends", "shirts"
+  add_foreign_key "friends", "users"
   add_foreign_key "orders", "users"
+  add_foreign_key "shirts", "friends"
   add_foreign_key "shirts", "orders"
 end

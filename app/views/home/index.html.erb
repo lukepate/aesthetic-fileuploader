@@ -1,27 +1,43 @@
 <div class="container">
+  <h1 class="login-title">Clever thing that changes</h1>
+  <h4><%= @user.email %></h4>
 
-<div class="new-order-box">
-  <div class="col-md-4 col-sm-6">
-  <div class="new-order-box-content">
-    <button class="btn waves-effect waves-light black hidebutton new-order-button">+</button>
-    <h2>Create a new order</h2>
+  <section>
+  <div class="order-container">
+    <div class="order-container-content">
+      <div>
+        <div class="new-order-box-content">
+          <button class="btn waves-effect waves-light black hidebutton new-order-button">+</button>
+          <h4>Create a new order</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-container-content">
+      <div>
+        <div class="new-order-box-content">
+          <button class="btn waves-effect waves-light black hidebutton new-order-button">+</button>
+          <h4>Create a new order</h4>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- This is for order -->
-  <div class="new-order-form">
+  <div class="order-form-container">
     <div class="form">
         <form action="/orders" method='POST'>
           <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-          <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+          <div class="field">
             <h4>Name </h4>
             <input type="text" name="name" value="">
           </div>
-          <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+          <div class="field">
             <h4>Date Needed</h4>
             <input type="date" name="date">
           </div>
             <input type="hidden" name="complete" value="f">
-          <div class="form-group">
+          <div class="form-group field">
             <h4>Shipping</h4>
             <select name="shipping" class="form-control shipping-select" id="exampleFormControlSelect1">
               <option value="pick_up">Pick Up</option>
@@ -29,10 +45,9 @@
             </select>
           </div>
       </div>
-
-          <div class="shipping-field field  col-md-offset-12">
-            <h4 class="col-md-offset-6">Shipping Address</h4>
-            <div class="row pull-right">
+          <div class="shipping-field field">
+            <h4 class="">Shipping Address</h4>
+            <div class="row">
               <input type="text" name="contact_name" value="Contact Name">
               <input type="text" name="address" value="Address">
               <input type="text" name="state" value="State">
@@ -40,16 +55,15 @@
             </div>
 
           </div>
-          <div class="col-md-offset-12 field">
+          <div class=" field">
             <input class="btn waves-effect waves-light black new-order-submit" type="submit">
           </div>
       </form>
-
   </div>
-  </div>
-</div>
+</section>
 
-</div>
+
+
 
 <hr>
 <!-- this displays the orders created by the users -->
@@ -62,12 +76,9 @@
     id <%= x['id'] %>
     user id<%= x['user_id'] %>
     <br>
-  <a href='/orders/<%=x['id']%>/edit'>Confirm Order</a><br>
-  <a href='/orders/<%=x['id']%>'>Add To Order</a><br>
-  <%= link_to "Remove Order", x, method: :delete %>
-
-
-
+    <a href='/orders/<%=x['id']%>/edit'>Confirm Order</a><br>
+    <a href='/orders/<%=x['id']%>'>Add To Order</a><br>
+    <%= link_to "Remove Order", x, method: :delete %>
   <% end %>
 
   <% end %>
@@ -78,7 +89,54 @@
 <hr>
 <!-- this displays the orders created by the users -->
 <div class="past-orders-container">
-<h1>Previous Orders</h1>
+
+
+
+<section>
+<h1 class="login-tite">Previous Orders</h1>
+<hr>
+<div class="order-container">
+
+
+    <% @orders.each do |x| %>
+
+      <% if x.user_id == @user.id %>
+      <% if x['complete'] == true %>
+        <% if x['user_id'] == @currentUser %>
+
+        <h3><%= x['name']%></h3>
+        <h4><%= x['date']%></h4>
+        <hr>
+
+        <div class="order-container-content"><div class="previous-order-details-container">content1</div></div>
+
+            <% @friends.each do |z| %>
+
+              <% if @currentUser  == z.user_id %>
+                <% if x.id == z.order_id %>
+              <div class="order-container-content">
+                <div>
+
+                  <h4><%= z['shirt_name']%></h4>
+                  <%= image_tag z.avatar.url(:medium), :class => "avatar-box" %>
+                  <%= link_to 'Delete', z, confirm: 'Are you sure you want to lose a friend?', method: :delete, class: 'destroy' %>
+
+                </div>
+              </div>
+
+              <% end %>
+            <% end %>
+          <% end %>
+        <hr>
+      <% end %>
+      <% end %>
+      <% end %>
+    <% end %>
+
+  </div>
+</section>
+
+
 <% @orders.each do |x| %>
 <!-- matches user id and displays just their info -->
     <div class="field">
@@ -118,5 +176,24 @@
 
 <% end %>
 </div>
+
+
+<section>
+<h1 class="login-tite">Previous Designs</h1>
+<hr>
+
+  <div class="order-container">
+    <% @friends.each do |z| %>
+      <% if @currentUser  == z.user_id  %>
+        <div class="order-container-content">
+          <div>
+            <%= image_tag z.avatar.url(:medium), :class => "avatar-box" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+</section>
 
 </div>
