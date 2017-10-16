@@ -1,0 +1,28 @@
+<%= form_for(Friend.new, multipart: true) do |f| %>
+
+
+  <div class="col-lg-offset-3 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+    <h4>Date Needed</h4>
+    <h3>name<%= f.text_field :name %></h3>
+    <h3>Ink colors<%= f.text_field :ink %></h3>
+    <h3>Shirt name<%= f.text_field :shirt_name %></h3>
+    <h3>print type<%= f.text_field :print %></h3>
+    <h3>how big is the print<%= f.text_field :size %></h3>
+  </div>
+  <div class="col-lg-offset-3 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+    <h4>Upload Image</h4>
+    <%= f.file_field :avatar %>
+  </div>
+  <div class="col-lg-offset-3 shirt_id field">
+    <h4>Pick A shirt</h4>
+    <%=f.select 'shirt_name', options_for_select(@shirts.collect{ |u| [u.name] if u.order_id == @order.id }.compact)%>
+  </div>
+  <div class="order_id field">
+    <%= f.hidden_field :order_id, :value => @order.id%>
+    <%= f.hidden_field :user_id, :value => @user.id%>
+
+  </div>
+  <div class="col-md-offset-4 field">
+    <input class="btn waves-effect waves-light black new-order-submit" type="submit">
+  </div>
+<% end %>

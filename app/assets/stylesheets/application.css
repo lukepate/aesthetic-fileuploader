@@ -51,6 +51,7 @@
     box-sizing: border-box;
     padding: 1%;
     margin-left: 20px;
+
 }
 
 .order-container-content > div {
@@ -68,4 +69,41 @@
   height:200px;
   border: 1px solid black;
   padding: 87px;
+}
+
+.file-container{
+  display: none;
+}
+
+.order-form-container{
+  display:none;
+}
+
+.order-form-container-content{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+.order-container-content-border{
+  width: 250px;
+  display:inline-block;
+  box-sizing: border-box;
+  padding: 1%;
+  margin: 10px;
+  margin-left: 20px;
+  position: relative;
+}
+
+.order-container-content-border > .shirt-content {
+    height:200px;
+    border: 1px solid black;
+    padding: 10px;
+}
+.order-container-content-border > .shirt-footer {
+    text-align: center;
 }

@@ -40,6 +40,10 @@ class FriendsController < ApplicationController
     @user = current_user
     Friend.create(shirt_id: params[:shirt_id],
                       order_id: params[:order_id],
+                      avatar: params[:avatar],
+                      avatar_file_name: params[:avatar_file_name],
+                      avatar_content_type: params[:avatar_content_type],
+                      avatar_file_size: params[:avatar_file_size],
                       shirt_name: params[:shirt_name])
 
     respond_to do |format|
@@ -72,7 +76,7 @@ class FriendsController < ApplicationController
   def destroy
     @friend.destroy
     respond_to do |format|
-      format.html { redirect_to friends_url }
+      format.html { redirect_to :back }
       format.json { head :no_content }
     end
   end

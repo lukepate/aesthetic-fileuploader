@@ -13,6 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').focus()
+})
 
 
 $( ".new-order-button" ).click(function() {
@@ -28,6 +31,16 @@ $( ".card-button" ).click(function() {
   $(".card ").toggle();
 });
 
+
+$( ".new-order-form-button" ).click(function() {
+  $(".new-order-form").toggle();
+  $(".file-container-button").toggle();
+  $(".file-container").hide();
+});
+
+$( ".file-container-button").click(function() {
+  $(".file-container").toggle();
+});
 
 
 //Reorder for /orders

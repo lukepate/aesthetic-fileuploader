@@ -23,6 +23,7 @@ class HomeController < ApplicationController
   # GET /friends/new
   def new
     @friend = Friend.new
+
   end
 
   def edit

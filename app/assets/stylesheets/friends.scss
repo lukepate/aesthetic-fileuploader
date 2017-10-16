@@ -173,9 +173,7 @@ footer {
   -webkit-flex-direction: row;
   flex-direction: row;
 }
-.order-form-container{
-  display:none;
-}
+
 
 .new-order-box{
   display: -webkit-flex;
@@ -197,16 +195,7 @@ footer {
 }
 
 
-.order-form-container{
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-}
+
 
 //
 // }
