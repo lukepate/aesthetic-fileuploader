@@ -31,6 +31,10 @@ $( ".card-button" ).click(function() {
   $(".card ").toggle();
 });
 
+$( ".form-submit").click(function() {
+  $(".hide-form-mock-up").toggle();
+  $(".hide-form-2").toggle();
+});
 
 $( ".new-order-form-button" ).click(function() {
   $(".new-order-form").toggle();
@@ -40,6 +44,22 @@ $( ".new-order-form-button" ).click(function() {
 
 $( ".file-container-button").click(function() {
   $(".file-container").toggle();
+});
+
+$( ".shirt-button").hover(function() {
+  $(this).css("cursor", "pointer");
+ $(this).css("scale",{
+   percent: "90%"
+ },500);
+});
+
+$('.carosel-control-right').click(function() {
+  $(this).blur();
+  $(this).parent().find('.carosel-item').first().insertAfter($(this).parent().find('.carosel-item').last());
+});
+$('.carosel-control-left').click(function() {
+  $(this).blur();
+  $(this).parent().find('.carosel-item').last().insertBefore($(this).parent().find('.carosel-item').first());
 });
 
 

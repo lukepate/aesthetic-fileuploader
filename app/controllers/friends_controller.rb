@@ -51,7 +51,7 @@ class FriendsController < ApplicationController
         format.html { redirect_to :back, notice: 'File was successfully created.' }
         format.json { render action: 'show', status: :created, location: @friend }
       else
-        format.html { render action: 'new' }
+        format.html { render action: 'show' }
         format.json { render json: @friend.errors, status: :unprocessable_entity }
       end
     end

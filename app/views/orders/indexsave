@@ -1,0 +1,27 @@
+<% @shirts.each do |shirt| %>
+<% if shirt.order_id  == orders.id %>
+    <div class="order-container-content">
+  <%= shirt['name']%>
+  <%= link_to "Remove", shirt, method: :delete %>
+  <br>
+  <br>
+
+
+
+
+
+  <!--=========================Add DESIGN END===============================-->
+
+  <% @friends.each do |friend| %>
+
+  <% if shirt.order_id  == friend.order_id && friend.shirt_name == shirt.name %>
+      <div>
+        <%= image_tag friend.avatar.url(:medium), :class => "avatar-box" %>
+      </div>
+    </div>
+
+  <% end %>
+  <% end %>
+
+<% end %>
+<% end %>

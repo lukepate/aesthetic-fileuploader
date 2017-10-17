@@ -1,215 +1,600 @@
-<div class="new-order-box">
-  <div class="col-md-4 col-sm-6">
-  <div class="new-order-box-content">
-    <button class="btn waves-effect waves-light black hidebutton new-order-button">+</button>
-    <h2>Create a new order</h2>
-  </div>
 
-<hr>
-<!-- This is for order -->
 
-<div class="new-order-form">
-  <div class="form">
-    <form action="/shirts" method='POST'>
-      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-      <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
-        <h4>Design Name </h4>
-        <input type="text" name="name" value="">
+
+
+<!--===========================Current order old ===========================-->
+    <!-- Loop Orders -->
+    <% @orders.each do |orders| %>
+    <% if orders == @orders.last %>
+      <!-- <%= orders['user_id']%> -->
+      <!-- <%= @user.id%> -->
+    <!-- Filter Orders by user -->
+    <% if orders.user_id == @user.id && if orders['complete'] == false && if orders['user_id'] ==
+    @currentUser %>
+     <h4><%= orders['date']%></p></h4>
+    <div class="order-container">
+
+      <!-- Loop by shirts-->
+      <% @shirts.each_with_index do |shirt, i| %>
+      <!-- Filter shirts by order id-->
+      <% if shirt.order_id  == orders.id %>
+
+          <div class="order-container-content-border">
+
+            <div class="shirt-content shirt-button">
+            <a class="" role="button" data-toggle="collapse" href="#<%= shirt['id']%>" aria-expanded="false" aria-controls="#<%= shirt['id']%>">
+              <h4><%= shirt['id']%></h4>
+               <% @friends.each_with_index do |friend, index| %>
+                <% if index == i %>
+                <%= image_tag friend.avatar.url(:small), :class => "avatar-box" %>
+                <% end %>
+               <% end %>
+
+
+            </div>
+                </a>
+            <div class="shirt-footer">
+            <h4><%= shirt['name']%></h4>
+            <h4><%= shirt['style']%> in <%= shirt['color']%></h4>
+            <%= link_to "Remove", shirt, method: :delete %>
+
+            </div>
+          </div>
+          <% end %><!-- Filter shirts by order id end-->
+          <% end %><!-- Loop by shirts end-->
+
+          <!-- Loop Orders -->
+          <% @orders.each do |orders| %>
+          <!-- Filter Orders by user -->
+          <% if orders.user_id == @user.id && if orders['complete'] == false && if orders['user_id'] ==
+          @currentUser %>
+          <div class="order-container">
+            <!-- Loop by shirts-->
+            <% @shirts.each do |shirt| %>
+            <!-- Filter shirts by order id-->
+            <% if shirt.order_id  == orders.id %>
+          <div class="collapse" id="<%= shirt['id']%>">
+          <div class="well">
+          <% @friends.each do |friend| %>
+          <!-- Filer friends by order_id and shirt_name-->
+          <% if shirt.order_id  == friend.order_id && friend.shirt_name == shirt.name %>
+            <div class="order-container-content">
+              <div>
+                <% if friend.avatar.url != "/avatars/original/missing.png" %>
+                    <%= image_tag friend.avatar.url(:medium), :class => "avatar-box" %>
+                <% end %>
+
+                <% if friend.ink != "" %>
+                  <%= image_tag friend.ink, :class => "avatar-box" %>
+                <% end %>
+                <h5><%= friend['name'] %></h5>
+
+                <%= link_to "Remove", friend, method: :delete %>
+              </div>
+            </div>
+
+          <% end %><!-- Filter shirts by order id end-->
+          <% end %><!-- Loop by shirts end-->
+
+
+          <!--=========================UPLOAD A DESIGN===============================-->
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#<%= shirt['id'] %><%= shirt['id'] %>" aria-expanded="false" aria-controls="collapseExample">
+            Upload a design
+          </button>
+
+          <div class="collapse" id="<%= shirt['id'] %><%= shirt['id'] %>">
+            <div class="well">
+              <%= form_for(Friend.new, multipart: true) do |f| %>
+                <div class="col-lg-offset-3 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+                  <h4>Date Needed</h4>
+                  <h3>name<%= f.text_field :name %></h3>
+                  <h3>Ink colors<%= f.text_field :ink %></h3>
+                  <h3>Shirt name<%= f.text_field :shirt_name %></h3>
+                  <h3>print type<%= f.text_field :print %></h3>
+                  <h3>how big is the print<%= f.text_field :size %></h3>
+                </div>
+                <div class="col-lg-offset-3 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+                  <h4>Upload Image</h4>
+                  <%= f.file_field :avatar %>
+                </div>
+                <div class="col-lg-offset-3 shirt_id field">
+                  <h4>Pick A shirt</h4>
+                  <%=f.select 'shirt_name', options_for_select(@shirts.collect{ |u| [u.name] if u.order_id == orders.id }.compact)%>
+                </div>
+                <div class="order_id field">
+                  <%= f.hidden_field :order_id, :value => orders.id%>
+                  <%= f.hidden_field :user_id, :value => @user.id%>
+
+                </div>
+                <div class="col-md-offset-4 field">
+                  <input class="btn waves-effect waves-light black new-order-submit" type="submit">
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <!--=========================UPLOAD A DESIGN===============================-->
+
+
+          <!--=========================PICK A DESIGN===============================-->
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#previous<%= shirt['id'] %>" aria-expanded="false" aria-controls="collapseExample">
+            Pick a previous design
+          </button>
+          <div class="collapse" id="previous<%= shirt['id'] %>">
+          <div class="well">
+          <% @friends.each do |friend| %>
+          <% if @user.id  == friend.user_id %>
+          <%= form_for(Friend.new, multipart: true) do |f| %>
+            <div class="col-lg-offset-3 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+              <h4>Upload Image</h4>
+              <h3><%= f.text_field :name, :value => orders.name %></h3>
+              <h3><%= f.text_field :ink, :value => friend.avatar.url %></h3>
+
+              <%= image_tag friend.avatar.url(:medium), :class => "avatar-box" %>
+            </div>
+            <div class="col-lg-offset-3 shirt_id field">
+              <h4>Pick A shirt</h4>
+              <%=f.select 'shirt_name', options_for_select(@shirts.collect{ |u| [u.name] if u.order_id == orders.id }.compact)%>
+            </div>
+            <div class="order_id field">
+              <%= f.hidden_field :order_id, :value => orders.id%>
+              <%= f.text_field :shirt_id, :value => shirt.id%>
+            </div>
+            <div class="col-md-offset-4 field">
+              <input class="btn waves-effect waves-light black new-order-submit" type="submit">
+            </div>
+            <% end %>
+            <% end %>
+            <% end %>
+          </div>
+        </div>
+        <!--=========================PICK A DESIGN===============================-->
+        </div>
       </div>
-      <div class="col-lg-offset-4 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
-        <h4>APPAREL STYLE</h4>
-        <select name="style" class="form-control shipping-select" id="exampleFormControlSelect1">
-          <option value="G500">G500</option>
-          <option value="Next_Level">Next Level</option>
-        </select>
-        <select name="color" class="form-control shipping-select" id="exampleFormControlSelect1">
-          <option value="red">Red</option>
-          <option value="black">Black</option>
-        </select>
-        <h3>xs<input type="xs" name="xs"></h3>
-        <h3>s<input type="s" name="s"></h3>
-        <h3>m<input type="m" name="m"></h3>
-        <h3>l<input type="l" name="l"></h3>
-        <h3>xl<input type="xl" name="xl"></h3>
-        <h3>2xl<input type="twoxl" name="twoxl"></h3>
-        <h3>3xl<input type="threexl" name="threexl"></h3>
-        <h3>4xl<input type="fourxl" name="fourxl"></h3>
-        <h3>5xl<input type="fivexl" name="fivexl"></h3>
+          <% end %><!-- Filter shirts by order id end-->
+          <% end %><!-- Filter shirts by order id end-->
+          <% end %><!-- Loop by shirts end-->
+          <% end %><!-- Filter shirts by order id end-->
+          <% end %><!-- Loop by shirts end-->
+          <% end %><!-- Loop by shirts end-->
 
 
+          <div class="collapse" id="77">
+          <div class="well">
+          <% @shirts.each do |shirt| %>
+          <!--=========================Loop through friends===============================-->
+          <!-- Filter shirts by order id-->
+          <% if shirt.order_id  == orders.id %>
+          <!-- Loop through friends-->
+          <% @friends.each do |friend| %>
+
+          <!-- Filer friends by order_id and shirt_name-->
+          <% if shirt.order_id  == friend.order_id && friend.shirt_name == shirt.name %>
+
+            <div class="order-container-content">
+              <div>
+                <% if friend.avatar.url != "/avatars/original/missing.png" %>
+                    <%= image_tag friend.avatar.url(:medium), :class => "avatar-box" %>
+                <% end %>
+
+                <% if friend.ink != "" %>
+                  <%= image_tag friend.ink, :class => "avatar-box" %>
+                <% end %>
+                <h5><%= friend['name'] %></h5>
+
+                <%= link_to "Remove", friend, method: :delete %>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#previous" aria-expanded="false" aria-controls="collapseExample">
+                  Pick a design
+                </button>
+
+              </div>
+            </div>
+          <% end %><!-- Filer friends by order_id and shirt_name end-->
+          <% end %><!-- Loop through friends end-->
+          <% end %><!-- Filer friends by order_id and shirt_name end-->
+          <% end %><!-- Loop through friends end-->
+
+
+          </div>
+          </div>
+          <!--=========================Loop through friends end===============================-->
+
+          <!--=========================Add T-shirt Form===============================-->
+          <!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#orders" aria-expanded="false" aria-controls="collapseExample" >
+            Add Shirt
+          </button> -->
+
+          <!-- <a class="btn btn-primary" href='/orders/<%=orders['id']%>/edit'>Confirm Order</a><br> -->
+          <div class="collapse" id="orders">
+          <div class="well">
+            <!--Form for new tshirt-->
+            <div class="new-order-form">
+              <div class="form">
+                <form action="/shirts" method='POST'>
+                  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                  <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+                    <h4>Add a shirt </h4>
+                    <input type="text" name="name" value="">
+                  </div>
+                  <div class="col-lg-offset-4 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+                    <h4>APPAREL STYLE</h4>
+                    <select name="style" class="form-control shipping-select" id="exampleFormControlSelect1">
+                      <option value="G500">G500</option>
+                      <option value="Next_Level">Next Level</option>
+                    </select>
+                    <select name="color" class="form-control shipping-select" id="exampleFormControlSelect1">
+                      <option value="red">Red</option>
+                      <option value="black">Black</option>
+                    </select>
+                    <h3>xs<input type="xs" name="xs"></h3>
+                    <h3>s<input type="s" name="s"></h3>
+                    <h3>m<input type="m" name="m"></h3>
+                    <h3>l<input type="l" name="l"></h3>
+                    <h3>xl<input type="xl" name="xl"></h3>
+                    <h3>2xl<input type="twoxl" name="twoxl"></h3>
+                    <h3>3xl<input type="threexl" name="threexl"></h3>
+                    <h3>4xl<input type="fourxl" name="fourxl"></h3>
+                    <h3>5xl<input type="fivexl" name="fivexl"></h3>
+                  </div>
+                  <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+                    <h4>Date</h4>
+                    <input type="date" name="date">
+                  </div>
+                  <input type="hidden" name="order_id" value="<%= orders.id %>"</h1>
+                  <input type="hidden" name="complete" value="false">
+
+                  <div class="col-md-offset-12 field">
+                    <input class="btn waves-effect waves-light black new-order-submit" type="submit">
+                  </div>
+                </form>
+                </div>
+              </div>
+          </div>
+          </div>
+          <!--=========================Add T-shirt Form end===============================-->
       </div>
-      <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
-        <h4>Date</h4>
-        <input type="date" name="date">
-      </div>
-      <input type="hidden" name="order_id" value="<%= @order.id %>"</h1>
-      <input type="hidden" name="complete" value="false">
-
-      <div class="col-md-offset-12 field">
-        <input class="btn waves-effect waves-light black new-order-submit" type="submit">
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Order form -->
-<%= render 'form' %>
-<hr>
-</div>
-</div>
+      <hr>
 
 
-<hr>
-<h1>reorder</h1>
-<h1>orders id  <%= @order['id']%></h1>
+    <% end %><% end %><% end %><!-- Filter Orders by user -->
+    <% end %><!--Orders End Last -->
+    <% end %><!--Orders End  -->
 
-  <h3>current id <%= @user['id'] %><br></h3>
-  <% @users.each do |user| %>
+</section>
+<!--=========================CURRENT ORDERS END===============================-->
+
+
+
+<!--=========================Current Orders new new ne===============================-->
+<section>
+  <h1 class="login-tite">Current Order</h1>
+  <hr>
+  <!-- Loop Orders -->
   <% @orders.each do |orders| %>
-    <% if @user['id'] == user['id']%>
+  <% if orders == @orders.last %>
+    <%= orders['user_id']%>
+    <%= orders['id']%>
 
+    <%= @user.id%>
+    <h1><%= orders['name']%></h1>
+    <!--=========================Add T-shirt Form===============================-->
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#orders" aria-expanded="false" aria-controls="collapseExample" >
+      Add Shirt
+    </button>
 
+    <a class="btn btn-primary" href='/orders/<%=orders['id']%>/edit'>Confirm Order</a><br>
+    <div class="collapse" id="orders">
+    <div class="well">
+      <!--Form for new tshirt-->
+      <div class="new-order-form">
+        <div class="form">
+          <form action="/shirts" method='POST'>
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+              <h4>Add a shirt </h4>
+              <input type="text" name="name" value="">
+            </div>
+            <div class="col-lg-offset-4 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+              <h4>APPAREL STYLE</h4>
+              <select name="style" class="form-control shipping-select" id="exampleFormControlSelect1">
+                <option value="G500">G500</option>
+                <option value="Next_Level">Next Level</option>
+              </select>
+              <select name="color" class="form-control shipping-select" id="exampleFormControlSelect1">
+                <option value="red">Red</option>
+                <option value="black">Black</option>
+              </select>
+              <h3>xs<input type="xs" name="xs"></h3>
+              <h3>s<input type="s" name="s"></h3>
+              <h3>m<input type="m" name="m"></h3>
+              <h3>l<input type="l" name="l"></h3>
+              <h3>xl<input type="xl" name="xl"></h3>
+              <h3>2xl<input type="twoxl" name="twoxl"></h3>
+              <h3>3xl<input type="threexl" name="threexl"></h3>
+              <h3>4xl<input type="fourxl" name="fourxl"></h3>
+              <h3>5xl<input type="fivexl" name="fivexl"></h3>
+            </div>
+            <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+              <h4>Date</h4>
+              <input type="date" name="date">
+            </div>
+            <input type="hidden" name="order_id" value="<%= orders['id']%>"</h1>
+            <input type="hidden" name="complete" value="false">
 
-      <% @shirts.each do |x| %>
-  <% if @order['id'] != x['order_id'] && x %>
-
-<% if @user.id  == orders.user_id && x.order_id  == orders.id %>
-<h1>@User id<%= @user.id %> = orders User id<%= orders.user_id %></h1>
-<h1>Order id<%= x.order_id %> = Order id<%= @order.id %></h1>
-    <div class="card col s5 offset-s1 card-size">
-    <div class="card-reveal">
-      Shirt name <%= x['name'] %> <br>
-      complete<%= x['complete'] %><br>
-      Shirt id <%= x['id'] %><br>
-      order id <%= x['order_id'] %><br>
-    <br>
+            <div class="col-md-offset-12 field">
+              <input class="btn waves-effect waves-light black new-order-submit" type="submit">
+            </div>
+          </form>
+          </div>
+        </div>
     </div>
     </div>
-  <div class="upload">
-  <% @friends.each do |z| %>
-    <% if x.order_id  == z.order_id && z.shirt_name == x.name %>
-    <div class="newfield">
-    <h4><%= z['name'] %> </h4>
-    </div>
-      <%= image_tag z.avatar.url(:medium) %>
-
-
-      <div class="form">
-        <%= form_for(Friend.new, multipart: true) do |f| %>
-
-
-          <div class="col-lg-offset-3 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
-            <h4>Date Needed</h4>
-            <h3>name<%= f.text_field :name, :value => @order.name %></h3>
-            <h3><input type="" name="ink" value="<%= z.ink%>"></h3>
-            <h3><input type="" name="shirt_name " value="<%= z.shirt_name%>"></h3>
-            <h3><input type="" name="print " value="<%= z.print%>"></h3>
-            <h3><input type="" name="size " value="<%= z.size%>"></h3>
-          </div>
-          <div class="col-lg-offset-3 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
-            <h4>Upload Image</h4>
-
-              <h3><input type="" name="avatar_file_name " value="<%= z.avatar.url%>"></h3>
-          </div>
-          <div class="col-lg-offset-3 shirt_id field">
-            <h4>Pick A shirt</h4>
-            <%=f.select 'shirt_name', options_for_select(@shirts.collect{ |u| [u.name] if u.order_id == @order.id }.compact)%>
-          </div>
-          <div class="order_id field">
-            <%= f.hidden_field :order_id, :value => @order.id%>
-          </div>
-          <div class="col-md-offset-4 field">
-            <input class="btn waves-effect waves-light black new-order-submit" type="submit">
-          </div>
-
-        <% end %>
-
-
-
-
-    <% end %>
-
-
-  <% end %>
-  <div class="form">
-    <form action="/shirts" method='POST'>
-      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-
-      </div>
-      <div class="col-lg-offset-4 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
-        <h4>Design Name
-        <input type="text" name="name" value="<%= x['name'] %> "></h4>
-
-        <input type="hidden" name="style" value="<%= x['style'] %>">
-        <input type="hidden" name="color" value="<%= x['color'] %>">
-        <h3>xs<input type="xs" name="xs" value="<%= x['xs'] %>"></h3>
-        <h3>s<input type="s" name="s" value="<%= x['s'] %>"></h3>
-        <h3>m<input type="m" name="m" value="<%= x['m'] %>"></h3>
-        <h3>l<input type="l" name="l" value="<%= x['l'] %>"></h3>
-        <h3>xl<input type="xl" name="xl" value="<%= x['xl'] %>"></h3>
-        <h3>2xl<input type="twoxl" name="twoxl" value="<%= x['2xl'] %>"></h3>
-        <h3>3xl<input type="threexl" name="threexl" value="<%= x['threexl'] %>"></h3>
-        <h3>4xl<input type="fourxl" name="fourxl" value="<%= x['fourxl'] %>"></h3>
-        <h3>5xl<input type="fivexl" name="fivexl" value="<%= x['fivexl'] %>"></h3>
-        <input type="date" name="date" value="">
-        <input type="hideen" name="order_id" value="<%= @order.id %>"</h1>
-        <input type="hidden" name="complete" value="false">
-        <input class="btn waves-effect waves-light black new-order-submit" type="submit">
-
-      </div>
-
-
-      <div class="col-md-offset-12 field">
-        <input class="btn waves-effect waves-light black new-order-submit" type="submit">
-      </div>
-    </form>
-  </div>
-  </div>
-  <% end %>
-    <% end %>
-<% end %>
-<% end %>
-    <% end %>
-        <% end %>
-
-<hr>
-<div class="shirt-container">
-  <h1>current orders</h1>
-<!-- this displays the orders created by the users -->
-<% @shirts.each do |x| %>
-  <% if x.order_id  == @order.id %>
-   <div class="card col s5 offset-s1 card-size">
-    <div class="card-reveal">
-    name <%= x['name'] %> <br>
-    complete<%= x['complete'] %><br>
-    Shirt id <%= x['id'] %><br>
-    order id <%= x['order_id'] %><br>
-
-      <%= link_to "Remove Order", x, method: :delete %>
-    <br>
-
-    <p><a href="/shirts/<%= x['id'] %>"> View Concert Date Details</a></p><br>
-    <p><a href="/shirts/<%= x['id'] %>"> Upload image</a></p><br>
-    </div>
-  </div>
-  <div class="upload">
-  <% @friends.each do |z| %>
-    <% if x.order_id  == z.order_id && z.shirt_name == x.name %>
-    <div class="newfield">
-    <h4><%= z['name'] %> </h4>
-    </div>
-      <%= image_tag z.avatar.url(:medium) %>
-
-    <% end %>
-  <% end %>
-  </div>
-
-  <br>
-    <br>
-
-
-  <% end %>
-<% end %>
-
-
+    <!--=========================Add T-shirt Form end===============================-->
 </div>
+<hr>
+      <% @shirts.each do |shirt| %>
+      <% if shirt.order_id  == orders.id %>
+      <% end %>
+      <% end %>
+  <% end %>
+  <% end %>
+
+
+    <!--===========================Current order old ===========================-->
+    <!-- Loop Orders -->
+    <% @orders.each do |orders| %>
+    <% if orders == @orders.last %>
+      <!-- <%= orders['user_id']%> -->
+      <!-- <%= @user.id%> -->
+    <!-- Filter Orders by user -->
+    <% if orders.user_id == @user.id && if orders['complete'] == false && if orders['user_id'] ==
+    @currentUser %>
+     <h4><%= orders['date']%></p></h4>
+    <div class="order-container">
+
+      <!-- Loop by shirts-->
+      <% @shirts.each_with_index do |shirt, i| %>
+      <!-- Filter shirts by order id-->
+      <% if shirt.order_id  == orders.id %>
+
+          <div class="order-container-content-border">
+
+            <div class="shirt-content shirt-button">
+            <a class="" role="button" data-toggle="collapse" href="#<%= shirt['id']%>" aria-expanded="false" aria-controls="#<%= shirt['id']%>">
+              <h4><%= shirt['id']%></h4>
+               <% @friends.each_with_index do |friend, index| %>
+                <% if index == i %>
+                <%= image_tag friend.avatar.url(:small), :class => "avatar-box" %>
+                <% end %>
+               <% end %>
+
+
+            </div>
+                </a>
+            <div class="shirt-footer">
+            <h4><%= shirt['name']%></h4>
+            <h4><%= shirt['style']%> in <%= shirt['color']%></h4>
+            <%= link_to "Remove", shirt, method: :delete %>
+
+            </div>
+          </div>
+          <% end %><!-- Filter shirts by order id end-->
+          <% end %><!-- Loop by shirts end-->
+
+          <!-- Loop Orders -->
+          <% @orders.each do |orders| %>
+          <!-- Filter Orders by user -->
+          <% if orders.user_id == @user.id && if orders['complete'] == false && if orders['user_id'] ==
+          @currentUser %>
+          <div class="order-container">
+            <!-- Loop by shirts-->
+            <% @shirts.each do |shirt| %>
+            <!-- Filter shirts by order id-->
+            <% if shirt.order_id  == orders.id %>
+          <div class="collapse" id="<%= shirt['id']%>">
+          <div class="well">
+          <% @friends.each do |friend| %>
+          <!-- Filer friends by order_id and shirt_name-->
+          <% if shirt.order_id  == friend.order_id && friend.shirt_name == shirt.name %>
+            <div class="order-container-content">
+              <div>
+                <% if friend.avatar.url != "/avatars/original/missing.png" %>
+                    <%= image_tag friend.avatar.url(:medium), :class => "avatar-box" %>
+                <% end %>
+
+                <% if friend.ink != "" %>
+                  <%= image_tag friend.ink, :class => "avatar-box" %>
+                <% end %>
+                <h5><%= friend['name'] %></h5>
+
+                <%= link_to "Remove", friend, method: :delete %>
+              </div>
+            </div>
+
+          <% end %><!-- Filter shirts by order id end-->
+          <% end %><!-- Loop by shirts end-->
+
+
+          <!--=========================UPLOAD A DESIGN===============================-->
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#<%= shirt['id'] %><%= shirt['id'] %>" aria-expanded="false" aria-controls="collapseExample">
+            Upload a design
+          </button>
+
+          <div class="collapse" id="<%= shirt['id'] %><%= shirt['id'] %>">
+            <div class="well">
+              <%= form_for(Friend.new, multipart: true) do |f| %>
+                <div class="col-lg-offset-3 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+                  <h4>Date Needed</h4>
+                  <h3>name<%= f.text_field :name %></h3>
+                  <h3>Ink colors<%= f.text_field :ink %></h3>
+                  <h3>Shirt name<%= f.text_field :shirt_name %></h3>
+                  <h3>print type<%= f.text_field :print %></h3>
+                  <h3>how big is the print<%= f.text_field :size %></h3>
+                </div>
+                <div class="col-lg-offset-3 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+                  <h4>Upload Image</h4>
+                  <%= f.file_field :avatar %>
+                </div>
+                <div class="col-lg-offset-3 shirt_id field">
+                  <h4>Pick A shirt</h4>
+                  <%=f.select 'shirt_name', options_for_select(@shirts.collect{ |u| [u.name] if u.order_id == orders.id }.compact)%>
+                </div>
+                <div class="order_id field">
+                  <%= f.hidden_field :order_id, :value => orders.id%>
+                  <%= f.hidden_field :user_id, :value => @user.id%>
+
+                </div>
+                <div class="col-md-offset-4 field">
+                  <input class="btn waves-effect waves-light black new-order-submit" type="submit">
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <!--=========================UPLOAD A DESIGN===============================-->
+
+
+          <!--=========================PICK A DESIGN===============================-->
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#previous<%= shirt['id'] %>" aria-expanded="false" aria-controls="collapseExample">
+            Pick a previous design
+          </button>
+          <div class="collapse" id="previous<%= shirt['id'] %>">
+          <div class="well">
+          <% @friends.each do |friend| %>
+          <% if @user.id  == friend.user_id %>
+          <%= form_for(Friend.new, multipart: true) do |f| %>
+            <div class="col-lg-offset-3 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+              <h4>Upload Image</h4>
+              <h3><%= f.text_field :name, :value => orders.name %></h3>
+              <h3><%= f.text_field :ink, :value => friend.avatar.url %></h3>
+
+              <%= image_tag friend.avatar.url(:medium), :class => "avatar-box" %>
+            </div>
+            <div class="col-lg-offset-3 shirt_id field">
+              <h4>Pick A shirt</h4>
+              <%=f.select 'shirt_name', options_for_select(@shirts.collect{ |u| [u.name] if u.order_id == orders.id }.compact)%>
+            </div>
+            <div class="order_id field">
+              <%= f.hidden_field :order_id, :value => orders.id%>
+              <%= f.text_field :shirt_id, :value => shirt.id%>
+            </div>
+            <div class="col-md-offset-4 field">
+              <input class="btn waves-effect waves-light black new-order-submit" type="submit">
+            </div>
+            <% end %>
+            <% end %>
+            <% end %>
+          </div>
+        </div>
+        <!--=========================PICK A DESIGN===============================-->
+        </div>
+      </div>
+          <% end %><!-- Filter shirts by order id end-->
+          <% end %><!-- Filter shirts by order id end-->
+          <% end %><!-- Loop by shirts end-->
+          <% end %><!-- Filter shirts by order id end-->
+          <% end %><!-- Loop by shirts end-->
+          <% end %><!-- Loop by shirts end-->
+
+
+          <div class="collapse" id="77">
+          <div class="well">
+          <% @shirts.each do |shirt| %>
+          <!--=========================Loop through friends===============================-->
+          <!-- Filter shirts by order id-->
+          <% if shirt.order_id  == orders.id %>
+          <!-- Loop through friends-->
+          <% @friends.each do |friend| %>
+
+          <!-- Filer friends by order_id and shirt_name-->
+          <% if shirt.order_id  == friend.order_id && friend.shirt_name == shirt.name %>
+
+            <div class="order-container-content">
+              <div>
+                <% if friend.avatar.url != "/avatars/original/missing.png" %>
+                    <%= image_tag friend.avatar.url(:medium), :class => "avatar-box" %>
+                <% end %>
+
+                <% if friend.ink != "" %>
+                  <%= image_tag friend.ink, :class => "avatar-box" %>
+                <% end %>
+                <h5><%= friend['name'] %></h5>
+
+                <%= link_to "Remove", friend, method: :delete %>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#previous" aria-expanded="false" aria-controls="collapseExample">
+                  Pick a design
+                </button>
+
+              </div>
+            </div>
+          <% end %><!-- Filer friends by order_id and shirt_name end-->
+          <% end %><!-- Loop through friends end-->
+          <% end %><!-- Filer friends by order_id and shirt_name end-->
+          <% end %><!-- Loop through friends end-->
+
+
+          </div>
+          </div>
+          <!--=========================Loop through friends end===============================-->
+
+          <!--=========================Add T-shirt Form===============================-->
+          <!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#orders" aria-expanded="false" aria-controls="collapseExample" >
+            Add Shirt
+          </button> -->
+
+          <!-- <a class="btn btn-primary" href='/orders/<%=orders['id']%>/edit'>Confirm Order</a><br> -->
+          <div class="collapse" id="orders">
+          <div class="well">
+            <!--Form for new tshirt-->
+            <div class="new-order-form">
+              <div class="form">
+                <form action="/shirts" method='POST'>
+                  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                  <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+                    <h4>Add a shirt </h4>
+                    <input type="text" name="name" value="">
+                  </div>
+                  <div class="col-lg-offset-4 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+                    <h4>APPAREL STYLE</h4>
+                    <select name="style" class="form-control shipping-select" id="exampleFormControlSelect1">
+                      <option value="G500">G500</option>
+                      <option value="Next_Level">Next Level</option>
+                    </select>
+                    <select name="color" class="form-control shipping-select" id="exampleFormControlSelect1">
+                      <option value="red">Red</option>
+                      <option value="black">Black</option>
+                    </select>
+                    <h3>xs<input type="xs" name="xs"></h3>
+                    <h3>s<input type="s" name="s"></h3>
+                    <h3>m<input type="m" name="m"></h3>
+                    <h3>l<input type="l" name="l"></h3>
+                    <h3>xl<input type="xl" name="xl"></h3>
+                    <h3>2xl<input type="twoxl" name="twoxl"></h3>
+                    <h3>3xl<input type="threexl" name="threexl"></h3>
+                    <h3>4xl<input type="fourxl" name="fourxl"></h3>
+                    <h3>5xl<input type="fivexl" name="fivexl"></h3>
+                  </div>
+                  <div class="col-lg-offset-10 col-md-offset-7 col-sm-offset-9 col-xs-offset-8 field">
+                    <h4>Date</h4>
+                    <input type="date" name="date">
+                  </div>
+                  <input type="hidden" name="order_id" value="<%= orders.id %>"</h1>
+                  <input type="hidden" name="complete" value="false">
+
+                  <div class="col-md-offset-12 field">
+                    <input class="btn waves-effect waves-light black new-order-submit" type="submit">
+                  </div>
+                </form>
+                </div>
+              </div>
+          </div>
+          </div>
+          <!--=========================Add T-shirt Form end===============================-->
+      </div>
+      <hr>
+
+
+    <% end %><% end %><% end %><!-- Filter Orders by user -->
+    <% end %><!--Orders End Last -->
+    <% end %><!--Orders End  -->
+
+</section>
+<!--=========================CURRENT ORDERS END===============================-->

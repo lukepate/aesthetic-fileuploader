@@ -2,8 +2,15 @@ class OrdersController < ApplicationController
 
 
   def index
+    @friends = Friend.all
+    @users = User.all
     @user = current_user
-    @orders=Order.where(user_id: current_user.id)
+    @order = Order.find_by(id: params[:id])
+    @orders=Order.all
+    @shirts = Shirt.all
+
+    @shirt = Shirt.find_by(id: params[:id])
+    @shirt_order_id = Shirt.find_by(order_id: params[:order_id])
 
   end
   def show
@@ -48,6 +55,12 @@ end
 
   def create
     @user = current_user
+    @currentUser = current_user.id
+    @users = User.all
+    @orders=Order.all
+    @shirts = Shirt.all
+    @friends = Friend.all
+    @order=Order.where(id: current_user.id)
     Order.create(name: params[:name],
               date: params[:date],
               complete: params[:complete],
@@ -58,8 +71,10 @@ end
               shipping: params[:shipping],
               state: params[:state],
               user_id: current_user.id)
-    UserNotifier.send_signup_email(@user).deliver
-    redirect_to :back
+      respond_to do |format|
+        format.html { redirect_to orders_url }
+        format.js { head :ok }
+      end
   end
   def destroy
     Order.destroy(params[:id])

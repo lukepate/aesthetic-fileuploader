@@ -15,11 +15,10 @@
   </div>
   <div class="col-lg-offset-3 shirt_id field">
     <h4>Pick A shirt</h4>
-    <%=f.select 'shirt_name', options_for_select(@shirts.collect{ |u| [u.name] if u.order_id == @order.id }.compact)%>
   </div>
   <div class="order_id field">
-    <%= f.hidden_field :order_id, :value => @order.id%>
-    <%= f.hidden_field :user_id, :value => @user.id%>
+    <%= f.hidden_field :order_id%>
+    <%= f.hidden_field :user_id %>
 
   </div>
   <div class="col-md-offset-4 field">
