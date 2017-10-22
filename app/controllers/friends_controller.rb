@@ -49,7 +49,7 @@ class FriendsController < ApplicationController
     respond_to do |format|
       if @friend.save
         format.html { redirect_to :back, notice: 'File was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @friend }
+        format.js  { render action: 'show', status: :created, location: @friend }
       else
         format.html { render action: 'show' }
         format.json { render json: @friend.errors, status: :unprocessable_entity }

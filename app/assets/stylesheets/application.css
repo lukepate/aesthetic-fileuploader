@@ -56,11 +56,16 @@ a{
     box-sizing: border-box;
     padding: 1%;
     margin-left: 20px;
+    display: -webkit-flex;
+display: flex;
+-webkit-flex-direction: row;
+flex-direction: row;
 
 }
 
 .order-container-content > div {
     height:200px;
+    margin-left: 100px;
 }
 
 .avatar-box{
@@ -189,4 +194,27 @@ width: 230px;
 }
 .hide-form-mock-up{
   display:none;
+}
+.extra-images{
+  display: -webkit-flex;
+display: flex;
+-webkit-flex-direction: row;
+flex-direction: row;
+}
+
+.shirt-details{
+  margin-left: 20px;
+}
+.shirt-row{
+  width: 500px;
+}
+.size-container{
+  margin-left: 50px;
+  margin-top: 10px;
+}
+.upload-button{
+  border: solid 2px black;
+  margin-left: -40px !important;
+  width: 210px;
+  height: 280px !important;
 }
